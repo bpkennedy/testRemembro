@@ -23,7 +23,6 @@ angular.module('testRemembroApp')
           }, 0);
         }
 
-        // Auth.$onAuth(update);
         update();
       }
     };
