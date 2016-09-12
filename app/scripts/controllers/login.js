@@ -13,7 +13,7 @@ angular.module('testRemembroApp')
       //Auth.$authWithOAuthPopup(provider, {rememberMe: true}).then(redirect, showError);
         var auth = firebase.auth();
 
-        var provider = new firebase.auth.TwitterAuthProvider();
+        var provider = new firebase.auth.FacebookAuthProvider();
         auth.signInWithPopup(provider).then(function(result) {
           // User signed in!
           var uid = result.user.uid;
