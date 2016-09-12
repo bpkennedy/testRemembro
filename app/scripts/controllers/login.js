@@ -7,10 +7,21 @@
  * Manages authentication to any active providers.
  */
 angular.module('testRemembroApp')
-  .controller('LoginCtrl', function ($scope, Auth, $location, $q, Ref, $timeout) {
+  .controller('LoginCtrl', function ($scope, Auth, $location, $q, $timeout) {
     $scope.oauthLogin = function(provider) {
       $scope.err = null;
-      Auth.$authWithOAuthPopup(provider, {rememberMe: true}).then(redirect, showError);
+      //Auth.$authWithOAuthPopup(provider, {rememberMe: true}).then(redirect, showError);
+        var auth = firebase.auth();
+
+        var provider = new firebase.auth.TwitterAuthProvider();
+        auth.signInWithPopup(provider).then(function(result) {
+          // User signed in!
+          var uid = result.user.uid;
+          console.log(result);
+        }).catch(function(error) {
+            console.log(error);
+          // An error occurred
+        });
     };
 
     $scope.anonymousLogin = function() {
@@ -43,20 +54,20 @@ angular.module('testRemembroApp')
           .then(redirect, showError);
       }
 
-      function createProfile(user) {
-        var ref = Ref.child('users', user.uid), def = $q.defer();
-        ref.set({email: email, name: firstPartOfEmail(email)}, function(err) {
-          $timeout(function() {
-            if( err ) {
-              def.reject(err);
-            }
-            else {
-              def.resolve(ref);
-            }
-          });
-        });
-        return def.promise;
-      }
+    //   function createProfile(user) {
+    //     var ref = Ref.child('users', user.uid), def = $q.defer();
+    //     ref.set({email: email, name: firstPartOfEmail(email)}, function(err) {
+    //       $timeout(function() {
+    //         if( err ) {
+    //           def.reject(err);
+    //         }
+    //         else {
+    //           def.resolve(ref);
+    //         }
+    //       });
+    //     });
+    //     return def.promise;
+    //   }
     };
 
     function firstPartOfEmail(email) {
@@ -70,7 +81,7 @@ angular.module('testRemembroApp')
       return f + str.substr(1);
     }
 
-  
+
 
     function redirect() {
       $location.path('/account');

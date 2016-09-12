@@ -16,6 +16,4 @@ angular.module('testRemembroApp', [
     'ngSanitize',
     'ngTouch',
     'firebase',
-    'firebase.ref',
-    'firebase.auth'
   ]);
