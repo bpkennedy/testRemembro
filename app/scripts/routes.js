@@ -55,26 +55,37 @@ angular.module('testRemembroApp')
 
   // configure views; whenAuthenticated adds a resolve method to ensure users authenticate
   // before trying to access that route
-  .config(['$routeProvider', function($routeProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
-      })
+  .config(['$routeProvider', '$urlRouterProvider', '$stateProvider', function($routeProvider, $urlRouterProvider, $stateProvider) {
+      $urlRouterProvider.otherwise("/");
 
-      .when('/chat', {
-        templateUrl: 'views/chat.html',
-        controller: 'ChatCtrl'
-      })
-      .when('/login', {
-        templateUrl: 'views/login.html',
-        controller: 'LoginCtrl'
-      })
-      .whenAuthenticated('/account', {
-        templateUrl: 'views/account.html',
-        controller: 'AccountCtrl'
-      })
-      .otherwise({redirectTo: '/'});
+      $stateProvider.state('root', {
+          url: "",
+          // Make this state abstract so it can never be
+          // loaded directly
+          abstract: true,
+
+          resolve: {
+          },
+          views: {
+              'titleBar@': {
+                  templateUrl: 'views/titleBar.html',
+                  controller: 'TitleBarCtrl'
+              },
+          }
+      });
+      $stateProvider.state('root.dashboard', {
+          url: '/',
+          data: {
+              pageName: 'MainCtrl',
+              browserTitle: 'Main'
+          },
+          views: {
+              'container@': {
+                  templateUrl: 'views/main.html',
+                  controller: 'MainCtrl'
+              }
+          }
+      });
   }])
 
   /**
