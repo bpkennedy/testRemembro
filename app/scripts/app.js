@@ -16,4 +16,5 @@ angular.module('testRemembroApp', [
     'ngSanitize',
     'ngTouch',
     'firebase',
+    'ui.router'
   ]);
